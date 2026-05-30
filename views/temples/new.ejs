@@ -1,0 +1,196 @@
+<% layout("/layouts/boilerplate") %>
+
+<h1 class="mb-4 text-center">
+    Add New Temple
+</h1>
+
+<div class="row">
+
+<div class="col-lg-6 offset-lg-3">
+
+<form
+action="/temples"
+
+method="POST"
+
+enctype="multipart/form-data">
+
+    <div class="mb-3">
+
+        <label class="form-label">
+            Temple Name
+        </label>
+
+        <input
+        type="text"
+        name="temple[name]"
+        class="form-control"
+        required>
+
+    </div>
+
+    <div class="mb-3">
+
+        <label class="form-label">
+            District
+        </label>
+
+        <input
+        type="text"
+        name="temple[district]"
+        class="form-control">
+
+    </div>
+
+    <div class="mb-3">
+
+   <label class="form-label">
+    Upload Temple Images
+</label>
+
+<input
+type="file"
+name="images"
+multiple
+class="form-control">
+</div>
+    <div class="mb-3">
+
+        <label class="form-label">
+            Description
+        </label>
+
+        <textarea
+        name="temple[description]"
+        class="form-control">
+        </textarea>
+
+    </div>
+
+    <div class="mb-3">
+
+        <label class="form-label">
+            Location
+        </label>
+
+        <input
+        type="text"
+        name="temple[location]"
+        class="form-control">
+
+    </div>
+
+    <div class="mb-3">
+
+        <label class="form-label">
+            Timings
+        </label>
+
+        <input
+        type="text"
+        name="temple[timings]"
+        class="form-control">
+
+    </div>
+<div class="mb-3">
+
+    <label class="form-label">
+        Category
+    </label>
+
+    <select
+    name="temple.category"
+    class="form-control">
+
+        <option>Jyotirlinga</option>
+        <option>Shakti Peeth</option>
+        <option>Krishna Temple</option>
+        <option>Shiva Temple</option>
+        <option>Swaminarayan Temple</option>
+         <option>Sun Temple</option>
+    </select>
+<div class="mb-3">
+<label>Nearest Railway Station</label>
+
+<input
+type="text"
+name="temple[nearestRailway]"
+class="form-control"
+>
+</div>
+
+<div class="mb-3">
+<label>Nearest Bus Stand</label>
+
+<input
+type="text"
+name="temple[nearestBusStand]"
+class="form-control"
+>
+</div>
+
+<div class="mb-3">
+<label>Nearest Airport</label>
+
+<input
+type="text"
+name="temple[nearestAirport]"
+class="form-control"
+>
+</div>
+
+<div class="mb-3">
+<label>How To Reach</label>
+
+<textarea
+name="temple[howToReach]"
+class="form-control"
+></textarea>
+</div>
+
+<div class="mb-3">
+<label>Google Map Link</label>
+
+<input
+type="text"
+name="temple[mapLink]"
+class="form-control"
+>
+</div>
+<div class="mb-3">
+    <label class="form-label">
+        Latitude
+    </label>
+
+    <input
+    type="number"
+    step="any"
+    name="temple[latitude]"
+    class="form-control"
+    placeholder="e.g. 20.8880">
+</div>
+
+<div class="mb-3">
+    <label class="form-label">
+        Longitude
+    </label>
+
+    <input
+    type="number"
+    step="any"
+    name="temple[longitude]"
+    class="form-control"
+    placeholder="e.g. 70.4012">
+</div>
+</div>
+    <button class="btn btn-dark">
+
+        Add Temple
+
+    </button>
+
+</form>
+
+</div>
+
+</div>

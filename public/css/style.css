@@ -1,0 +1,551 @@
+/* Hero Section */
+
+.hero-section{
+
+    height: 90vh;
+
+    background-image:
+    linear-gradient(
+        rgba(0,0,0,0.5),
+        rgba(0,0,0,0.5)
+    ),
+
+    url("https://www.rannutsavgujarat.in/thumb/media/0x0/fLwcdhrZsXKnmCSw6YFJN7jFE5RtP9zT.jpg");
+
+    background-size: cover;
+
+    background-position: center;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    text-align: center;
+
+    color: rgb(224, 228, 219);
+
+}
+
+/* About Section */
+
+.about-img{
+    width: 100%;
+    border-radius: 20px;
+
+    height: 400px;
+    object-fit: cover;
+}
+
+.section-title{
+    font-size: 2.5rem;
+    font-weight: bold;
+
+    color: #003366;
+}
+
+.section-text{
+    font-size: 1.1rem;
+    margin-top: 20px;
+
+    line-height: 1.8;
+}
+
+/* Tourism Cards */
+
+.tour-card{
+    background: white;
+
+    border-radius: 20px;
+
+    overflow: hidden;
+
+    transition: 0.4s;
+
+    box-shadow:
+    0 5px 20px rgba(0,0,0,0.1);
+}
+
+.tour-card:hover{
+    transform: translateY(-10px);
+
+    box-shadow:
+    0 10px 30px rgba(255,107,0,0.3);
+}
+
+.tour-img{
+    width: 100%;
+    height: 250px;
+
+    object-fit: cover;
+}
+
+.tour-body{
+    padding: 20px;
+}
+
+/* Responsive */
+
+@media(max-width:768px){
+
+    .hero-content h1{
+        font-size: 2.5rem;
+    }
+
+    .hero-content p{
+        font-size: 1rem;
+    }
+
+    .section-title{
+        font-size: 2rem;
+        margin-top: 20px;
+    }
+
+    .hero{
+        height: 80vh;
+    }
+
+}
+
+body{
+    background-color: #f8f9fa;
+    font-family: Arial, sans-serif;
+}
+
+/* Navbar */
+
+.custom-navbar{
+    background: linear-gradient(
+        90deg,
+        #ff6b00,
+        #ff9500
+    );
+
+    padding: 15px 0;
+}
+
+.navbar-brand{
+    font-size: 1.5rem;
+}
+
+.nav-link{
+    color: white !important;
+    margin-left: 15px;
+    transition: 0.3s;
+}
+
+.nav-link:hover{
+    color: #facc15 !important;
+}
+
+/* Hero Section */
+
+.hero{
+    height: 90vh;
+
+    background-image:
+    linear-gradient(
+    rgba(0,0,0,0.5),
+    rgba(0,0,0,0.5)),
+
+    url("https://images.unsplash.com/photo-1512453979798-5ea266f8880c");
+
+    background-size: cover;
+    background-position: center;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+
+    color: white;
+}
+
+.hero-content h1{
+    font-size: 4rem;
+    font-weight: bold;
+}
+
+.hero-content p{
+    font-size: 1.4rem;
+    margin-top: 15px;
+}
+
+/* Feature Cards */
+
+.feature-card{
+    background: white;
+    padding: 20px;
+
+    border-radius: 15px;
+
+    text-align: center;
+
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+
+    transition: 0.3s;
+}
+
+.feature-card:hover{
+    transform: translateY(-10px);
+}
+
+.feature-img{
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+
+    border-radius: 10px;
+}
+
+/* Temple Cards */
+
+.card{
+    border: none;
+    border-radius: 15px;
+
+    overflow: hidden;
+
+    transition: 0.3s;
+
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.card:hover{
+    transform: translateY(-10px);
+}
+
+.temple-img{
+    height: 250px;
+    object-fit: cover;
+}
+
+.show-img{
+    height: 200px;
+    object-fit: cover;
+}
+
+/* Footer */
+
+.footer{
+    background-color: #111827;
+
+    color: white;
+
+    padding: 30px 0;
+
+    margin-top: 50px;
+}
+
+/* Mobile Responsive */
+
+@media(max-width:768px){
+
+    .hero-content h1{
+        font-size: 2.5rem;
+    }
+
+    .hero-content p{
+        font-size: 1rem;
+    }
+
+    .hero{
+        height: 70vh;
+    }
+
+    .show-img{
+        height: 300px;
+    }
+
+}
+.btn-dark{
+    background-color: #003366 !important;
+    border: none;
+}
+
+.btn-dark:hover{
+    background-color: #001f4d !important;
+}
+
+.btn-warning{
+    background-color: #ff9500 !important;
+    border: none;
+    color: white !important;
+}
+
+.btn-warning:hover{
+    background-color: #e67e00 !important;
+}
+.form-control,
+.form-select{
+    padding: 12px;
+
+    border-radius: 10px;
+
+    border: 1px solid #ddd;
+}
+
+.form-control:focus,
+.form-select:focus{
+    box-shadow: none;
+
+    border-color: #ff6b00;
+}
+
+/* Search Section */
+
+.search-box{
+    background: white;
+
+    padding: 25px;
+
+    border-radius: 20px;
+
+    box-shadow:
+    0 5px 20px rgba(0,0,0,0.1);
+}
+
+.search-input{
+    height: 55px;
+
+    border-radius: 12px;
+
+    border: 1px solid #ddd;
+
+    padding-left: 15px;
+
+    font-size: 1rem;
+}
+
+.search-input:focus{
+    border-color: #ff6b00;
+
+    box-shadow: none;
+}
+
+.search-btn{
+    height: 55px;
+
+    border-radius: 12px;
+
+    font-weight: bold;
+}
+
+.tour-card img{
+
+    width: 100%;
+
+    height: 250px;
+
+    object-fit: cover;
+
+    border-radius: 10px 10px 0 0;
+
+}
+
+.tour-card{
+
+    height: 100%;
+
+    border-radius: 10px;
+
+    overflow: hidden;
+
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+
+    background: white;
+
+}
+
+.tour-body{
+
+    padding: 15px;
+
+}
+#map{
+
+    height: 250px;
+
+    width: 100%;
+
+    border-radius: 15px;
+
+    margin-top: 20px;
+
+}
+/* Temple Cards Same Size */
+
+.temple-card {
+
+    height: 100%;
+
+    border: none;
+
+    border-radius: 15px;
+
+    overflow: hidden;
+
+    transition: 0.3s;
+
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+
+}
+
+.temple-card:hover {
+
+    transform: translateY(-8px);
+
+}
+
+/* Same Image Size */
+
+.temple-card img {
+
+    height: 250px;
+
+    width: 100%;
+
+    object-fit: cover;
+
+}
+
+/* Same Card Body Size */
+
+.temple-card .card-body {
+
+    min-height: 180px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: space-between;
+
+}
+.star-rating {
+
+    display: flex;
+
+    flex-direction: row-reverse;
+
+    justify-content: start;
+
+    gap: 5px;
+
+}
+
+.star-rating input {
+
+    display: none;
+
+}
+
+.star-rating label {
+
+    font-size: 2rem;
+
+    color: #ccc;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+
+}
+
+.star-rating input:checked ~ label {
+
+    color: gold;
+
+}
+
+.star-rating label:hover,
+.star-rating label:hover ~ label {
+
+    color: orange;
+
+}
+.dark-mode{
+
+    background-color: #121212;
+
+    color: white;
+
+}
+
+.dark-mode .card{
+
+    background-color: #1f1f1f;
+
+    color: white;
+
+}
+html,
+body{
+    height: 100%;
+    margin: 0;
+}
+
+.page-container{
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.content-wrap{
+    flex: 1;
+}
+
+#loader{
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    background: white;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.temple-gallery{
+    height: 250px;
+    width: 100%;
+    object-fit: cover;
+    transition: 0.3s;
+}
+
+.temple-gallery:hover{
+    transform: scale(1.03);
+}
+/* body{
+    background-color: #f8f9fa;
+}
+
+.hero-section{
+    height: 80vh;
+
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+}
+
+.hero-section h1{
+    font-size: 4rem;
+    font-weight: bold;
+}
+
+.hero-section p{
+    font-size: 1.3rem;
+}
+.temple-img{
+    height: 250px;
+    object-fit: cover;
+}
+.show-img{
+    height: 500px;
+    object-fit: cover;
+}    */

@@ -1,0 +1,58 @@
+<% layout("/layouts/boilerplate") %>
+
+<h2 class="mb-4 text-center">
+
+    My Favorite Temples ❤️
+
+</h2>
+
+<div class="row">
+
+<% for(let temple of favorites){ %>
+
+    <div class="col-md-3 mb-4">
+
+        <div class="card shadow h-100">
+
+            <img
+            src="<%= temple.image %>"
+
+            class="card-img-top"
+
+            style="
+            height:250px;
+            object-fit:cover;
+            ">
+
+            <div class="card-body">
+
+                <h5>
+
+                    <%= temple.name %>
+
+                </h5>
+
+                <p>
+
+                    <%= temple.district %>
+
+                </p>
+
+                <a
+                href="/temples/<%= temple._id %>"
+
+                class="btn btn-dark">
+
+                    View Details
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+<% } %>
+
+</div>

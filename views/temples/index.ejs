@@ -1,0 +1,344 @@
+<% layout("/layouts/boilerplate") %>
+
+<div class="container py-5">
+
+    <!-- Heading -->
+
+    <div class="d-flex justify-content-between align-items-center mb-5">
+
+        <h1 class="fw-bold text-dark">
+
+            🛕 Famous Gujarat Temples
+
+        </h1>
+
+        <% if(currUser){ %>
+
+            <a
+            href="/temples/new"
+            class="btn btn-warning fw-bold shadow-sm"
+            >
+
+                + Add Temple
+
+            </a>
+
+        <% } %>
+
+    </div>
+
+    <!-- Search Section -->
+
+    <div class="card shadow-sm border-0 p-4 mb-5 rounded-4">
+
+        <form action="/temples" method="GET">
+
+            <div class="row g-3">
+
+                <!-- Search Temple -->
+
+                <div class="col-lg-4">
+
+                    <input
+                    type="text"
+                    name="search"
+                    value="<%= search %>"
+                    class="form-control"
+                    placeholder="🔍 Search Temple Name"
+                    >
+
+                </div>
+
+                <!-- District -->
+
+                <div class="col-lg-3">
+
+                    <select
+                    name="district"
+                    class="form-select"
+                    >
+
+                        <option value="">
+                            Select District
+                        </option>
+
+                        <option
+                        value="Dwarka"
+                        <%= district === "Dwarka" ? "selected" : "" %>
+                        >
+                            Dwarka
+                        </option>
+
+                        <option
+                        value="Somnath"
+                        <%= district === "Somnath" ? "selected" : "" %>
+                        >
+                            Somnath
+                        </option>
+
+                        <option
+                        value="Ahmedabad"
+                        <%= district === "Ahmedabad" ? "selected" : "" %>
+                        >
+                            Ahmedabad
+                        </option>
+
+                        <option
+                        value="Kutch"
+                        <%= district === "Kutch" ? "selected" : "" %>
+                        >
+                            Kutch
+                        </option>
+
+                        <option
+                        value="Gandhinagar"
+                        <%= district === "Gandhinagar" ? "selected" : "" %>
+                        >
+                            Gandhinagar
+                        </option>
+
+                        <option
+                        value="Mehsana"
+                        <%= district === "Mehsana" ? "selected" : "" %>
+                        >
+                            Mehsana
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <!-- Category -->
+
+                <div class="col-lg-3">
+
+                    <select
+                    name="category"
+                    class="form-select"
+                    >
+
+                        <option value="">
+                            Select Category
+                        </option>
+
+                        <option
+                        value="Jyotirlinga"
+                        <%= category === "Jyotirlinga" ? "selected" : "" %>
+                        >
+                            Jyotirlinga
+                        </option>
+
+                        <option
+                        value="Shakti Peeth"
+                        <%= category === "Shakti Peeth" ? "selected" : "" %>
+                        >
+                            Shakti Peeth
+                        </option>
+
+                        <option
+                        value="Krishna Temple"
+                        <%= category === "Krishna Temple" ? "selected" : "" %>
+                        >
+                            Krishna Temple
+                        </option>
+
+                        <option
+                        value="Shiva Temple"
+                        <%= category === "Shiva Temple" ? "selected" : "" %>
+                        >
+                            Shiva Temple
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <!-- Search Button -->
+
+                <div class="col-lg-2">
+
+                    <button
+                    class="btn btn-dark w-100 fw-bold"
+                    >
+
+                        Search
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </form>
+
+    </div>
+
+    <!-- No Temple Found -->
+
+    <% if(temples.length === 0){ %>
+
+        <div class="text-center mt-5">
+
+            <h3 class="text-danger">
+
+                No Temple Found 😔
+
+            </h3>
+
+        </div>
+
+    <% } %>
+
+    <!-- Temple Cards -->
+
+    <div class="row">
+
+        <% for(let temple of temples){ %>
+
+            <div class="col-lg-4 col-md-6 mb-4">
+
+                <div class="card border-0 shadow temple-card h-100 rounded-4 overflow-hidden">
+
+                    <!-- Temple Image -->
+<img
+src="<%= temple.images && temple.images.length > 0
+? temple.images[0].url
+: 'https://via.placeholder.com/400x250?text=No+Image' %>"
+class="card-img-top temple-img"
+alt="<%= temple.name %>"
+>
+                    <!-- Card Body -->
+
+                    <div class="card-body d-flex flex-column">
+
+                        <h4 class="card-title fw-bold">
+
+                            <%= temple.name %>
+
+                        </h4>
+
+                        <p class="mb-2">
+
+                            <b>District:</b>
+                            <%= temple.district %>
+
+                        </p>
+
+                        <% if(temple.category){ %>
+
+                        <p class="mb-3">
+
+                            <span class="badge bg-warning text-dark">
+
+                                <%= temple.category %>
+
+                            </span>
+
+                        </p>
+
+                        <% } %>
+
+                        <!-- Created By -->
+
+                        <% if(temple.owner){ %>
+
+                            <p class="text-muted small">
+
+                                Added By:
+                                <%= temple.owner.username %>
+
+                            </p>
+
+                        <% } %>
+
+                        <!-- Button -->
+
+                        <div class="mt-auto">
+
+                            <a
+                            href="/temples/<%= temple._id %>"
+                            class="btn btn-dark w-100"
+                            >
+
+                                View Details
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        <% } %>
+
+    </div>
+
+    <!-- Pagination -->
+
+    <% if(totalPages > 1){ %>
+
+    <nav class="mt-5">
+
+        <ul class="pagination justify-content-center">
+
+            <% if(currentPage > 1){ %>
+
+                <li class="page-item">
+
+                    <a
+                    class="page-link"
+                    href="/temples?page=<%= currentPage - 1 %>"
+                    >
+
+                        Previous
+
+                    </a>
+
+                </li>
+
+            <% } %>
+
+            <% for(let i = 1; i <= totalPages; i++){ %>
+
+                <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+
+                    <a
+                    class="page-link"
+                    href="/temples?page=<%= i %>"
+                    >
+
+                        <%= i %>
+
+                    </a>
+
+                </li>
+
+            <% } %>
+
+            <% if(currentPage < totalPages){ %>
+
+                <li class="page-item">
+
+                    <a
+                    class="page-link"
+                    href="/temples?page=<%= currentPage + 1 %>"
+                    >
+
+                        Next
+
+                    </a>
+
+                </li>
+
+            <% } %>
+
+        </ul>
+
+    </nav>
+
+    <% } %>
+
+</div>

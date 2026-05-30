@@ -1,0 +1,431 @@
+<% layout("/layouts/boilerplate") %>
+
+<!-- Leaflet CSS -->
+<link
+rel="stylesheet"
+href="https://unpkg.com/leaflet/dist/leaflet.css"
+/>
+
+<div class="row mt-4 justify-content-center">
+
+    <div class="col-lg-8 col-md-10">
+
+        <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+
+            <!-- Temple Images -->
+             <div class="row">
+
+    <% temple.images.forEach((img) => { %>
+
+        <div class="col-md-4 mb-3">
+
+            <img
+            src="<%= img.url %>"
+            class="img-fluid rounded shadow temple-gallery">
+
+        </div>
+
+    <% }) %>
+
+</div>
+  <div class="card-body p-4">
+
+                <!-- Temple Name -->
+                <h2 class="fw-bold mb-3">
+
+                    🛕 <%= temple.name %>
+
+                </h2>
+
+                <!-- Created By -->
+                <% if(temple.owner){ %>
+
+                    <p class="text-muted">
+
+                        <b>Created By:</b>
+                        <%= temple.owner.username %>
+
+                    </p>
+
+                <% } %>
+
+                <hr>
+
+                <!-- Temple Details -->
+
+                <p>
+                    <b>District:</b>
+                    <%= temple.district %>
+                </p>
+
+                <p>
+                    <b>Description:</b>
+                    <%= temple.description %>
+                </p>
+
+                <p>
+                    <b>Location:</b>
+                    <%= temple.location %>
+                </p>
+
+                <p>
+                    <b>Timings:</b>
+                    <%= temple.timings %>
+                </p>
+
+                <% if(temple.category){ %>
+
+                <p>
+                    <b>Category:</b>
+                    <%= temple.category %>
+                </p>
+
+                <% } %>
+
+                <hr>
+
+                <!-- Travel Information -->
+
+                <h4 class="mb-3">
+                    🚆 Travel Information
+                </h4>
+
+                <p>
+                    <b>Nearest Railway Station:</b>
+                    <%= temple.nearestRailway || "Not Available" %>
+                </p>
+
+                <p>
+                    <b>Nearest Bus Stand:</b>
+                    <%= temple.nearestBusStand || "Not Available" %>
+                </p>
+
+                <p>
+                    <b>Nearest Airport:</b>
+                    <%= temple.nearestAirport || "Not Available" %>
+                </p>
+
+                <p>
+                    <b>How To Reach:</b>
+                    <%= temple.howToReach || "Not Available" %>
+                </p>
+
+                <% if(temple.mapLink){ %>
+
+                    <a
+                    href="<%= temple.mapLink %>"
+                    target="_blank"
+                    class="btn btn-dark mb-3"
+                    >
+
+                        Open In Google Maps
+
+                    </a>
+
+                <% } %>
+
+                <hr>
+
+                <!-- Average Rating -->
+
+                <h4 class="mb-3">
+
+                    ⭐ Average Rating:
+                    <%= avgRating.toFixed(1) %>/5
+
+                </h4>
+
+                <!-- Review Form -->
+
+                <% if(currUser){ %>
+
+                <div class="card p-4 shadow-sm mb-4">
+
+                    <h4 class="mb-3">
+                        Add Review
+                    </h4>
+
+                    <form
+                    action="/temples/<%= temple._id %>/reviews"
+                    method="POST"
+                    >
+
+                        <!-- Rating -->
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+
+                                Give Rating
+
+                            </label>
+
+                            <div class="star-rating">
+
+    <input type="radio" id="5-stars" name="review[rating]" value="5" required>
+    <label for="5-stars">★</label>
+
+    <input type="radio" id="4-stars" name="review[rating]" value="4">
+    <label for="4-stars">★</label>
+
+    <input type="radio" id="3-stars" name="review[rating]" value="3">
+    <label for="3-stars">★</label>
+
+    <input type="radio" id="2-stars" name="review[rating]" value="2">
+    <label for="2-stars">★</label>
+
+    <input type="radio" id="1-star" name="review[rating]" value="1">
+    <label for="1-star">★</label>
+
+</div>
+
+                        </div>
+
+                        <!-- Comment -->
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+
+                                Comment
+
+                            </label>
+
+                            <textarea
+                            name="review[comment]"
+                            class="form-control"
+                            rows="3"
+                            required
+                            ></textarea>
+
+                        </div>
+
+                        <button class="btn btn-dark">
+
+                            Add Review
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+                <% } %>
+
+                <!-- Reviews Section -->
+
+                <h3 class="mb-4">
+
+                    Reviews
+
+                </h3>
+
+                <div class="row">
+
+                    <% if(temple.reviews.length === 0){ %>
+
+                        <p>No Reviews Yet</p>
+
+                    <% } %>
+
+                    <% for(let review of temple.reviews){ %>
+
+                        <div class="col-md-6 mb-3">
+
+                            <div class="card shadow-sm p-3 h-100">
+
+                                <h5>
+
+                                    ⭐ <%= review.rating %>/5
+
+                                </h5>
+
+                                <p>
+
+                                    <%= review.comment %>
+
+                                </p>
+
+                                <% if(review.owner){ %>
+
+                                    <small class="text-muted">
+
+                                        By:
+                                        <%= review.owner.username %>
+
+                                    </small>
+
+                                <% } %>
+
+                                <!-- Delete Review -->
+
+                                <% if(
+                                    currUser &&
+                                    review.owner &&
+                                    currUser._id.equals(review.owner._id)
+                                ){ %>
+
+                                <form
+                                action="/temples/<%= temple._id %>/reviews/<%= review._id %>?_method=DELETE"
+                                method="POST"
+                                class="mt-3"
+                                >
+
+                                    <button
+                                    class="btn btn-sm btn-danger"
+                                    >
+
+                                        Delete Review
+
+                                    </button>
+
+                                </form>
+
+                                <% } %>
+
+                            </div>
+
+                        </div>
+
+                    <% } %>
+
+                </div>
+
+                <hr>
+
+                <!-- Favorite Button -->
+
+                <% if(currUser){ %>
+
+                <form
+                action="/temples/<%= temple._id %>/favorite"
+                method="POST"
+                class="mb-4"
+                >
+
+                    <button class="btn btn-danger">
+
+                        ❤️ Add To Favorites
+
+                    </button>
+
+                </form>
+
+                <% } %>
+
+                <!-- Owner Buttons -->
+
+                <% if(
+                    currUser &&
+                    temple.owner &&
+                    currUser._id.equals(temple.owner._id)
+                ){ %>
+
+                <div class="d-flex gap-3 mb-4">
+
+                    <a
+                    href="/temples/<%= temple._id %>/edit"
+                    class="btn btn-warning"
+                    >
+
+                        Edit
+
+                    </a>
+
+                    <form
+                    action="/temples/<%= temple._id %>?_method=DELETE"
+                    method="POST"
+                    >
+
+                        <button class="btn btn-danger">
+
+                            Delete
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+                <% } %>
+
+                <hr>
+
+                <!-- Map -->
+
+                <h3 class="mb-3">
+
+                    📍 Temple Location
+
+                </h3>
+
+                <div
+                id="map"
+                style="
+                height:400px;
+                width:100%;
+                border-radius:15px;
+                "
+                ></div>
+
+                <!-- Back Button -->
+
+                <div class="mt-4">
+
+                    <a
+                    href="/temples"
+                    class="btn btn-dark"
+                    >
+
+                        ← Back
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Leaflet JS -->
+<script
+src="https://unpkg.com/leaflet/dist/leaflet.js">
+</script>
+
+<script>
+
+    const latitude =
+    <%= temple.latitude || 20.5937 %>;
+
+    const longitude =
+    <%= temple.longitude || 78.9629 %>;
+
+    const map =
+    L.map("map").setView(
+        [latitude, longitude],
+        13
+    );
+
+    L.tileLayer(
+        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        {
+            attribution:
+            "&copy; OpenStreetMap contributors",
+        }
+    ).addTo(map);
+
+    L.marker([latitude, longitude])
+
+    .addTo(map)
+
+    .bindPopup(
+        "<%= temple.name %>"
+    )
+
+    .openPopup();
+
+</script>

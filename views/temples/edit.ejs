@@ -1,0 +1,276 @@
+<% layout("/layouts/boilerplate") %>
+
+<h1 class="text-center mb-4">
+    Edit Temple
+</h1>
+
+<div class="row">
+    <div class="col-lg-8 offset-lg-2">
+
+
+    <form
+    action="/temples/<%= temple._id %>?_method=PUT"
+    method="POST"
+    enctype="multipart/form-data">
+
+        <!-- Temple Name -->
+        <div class="mb-3">
+            <label class="form-label">
+                Temple Name
+            </label>
+
+            <input
+            type="text"
+            name="temple[name]"
+            value="<%= temple.name %>"
+            class="form-control"
+            required>
+        </div>
+
+        <!-- District -->
+        <div class="mb-3">
+            <label class="form-label">
+                District
+            </label>
+
+            <input
+            type="text"
+            name="temple[district]"
+            value="<%= temple.district %>"
+            class="form-control">
+        </div>
+
+        <!-- Current Images -->
+        <% if(temple.images && temple.images.length > 0){ %>
+
+            <div class="mb-3">
+                <label class="form-label">
+                    Current Images
+                </label>
+
+                <div class="row">
+
+                    <% temple.images.forEach((img) => { %>
+
+                        <div class="col-md-3 mb-2">
+
+                            <img
+                            src="<%= img.url %>"
+                            class="img-fluid rounded shadow">
+
+                        </div>
+
+                    <% }) %>
+
+                </div>
+            </div>
+
+        <% } %>
+
+        <!-- Upload New Images -->
+        <div class="mb-3">
+            <label class="form-label">
+                Upload New Images
+            </label>
+
+            <input
+            type="file"
+            name="images"
+            multiple
+            class="form-control">
+        </div>
+
+        <!-- Description -->
+        <div class="mb-3">
+            <label class="form-label">
+                Description
+            </label>
+
+            <textarea
+            name="temple[description]"
+            class="form-control"
+            rows="4"><%= temple.description %></textarea>
+        </div>
+
+        <!-- Location -->
+        <div class="mb-3">
+            <label class="form-label">
+                Location
+            </label>
+
+            <input
+            type="text"
+            name="temple[location]"
+            value="<%= temple.location %>"
+            class="form-control">
+        </div>
+
+        <!-- Timings -->
+        <div class="mb-3">
+            <label class="form-label">
+                Timings
+            </label>
+
+            <input
+            type="text"
+            name="temple[timings]"
+            value="<%= temple.timings %>"
+            class="form-control">
+        </div>
+
+        <!-- Category -->
+        <div class="mb-3">
+            <label class="form-label">
+                Category
+            </label>
+
+            <select
+            name="temple[category]"
+            class="form-control">
+
+                <option value="Jyotirlinga"
+                <%= temple.category === "Jyotirlinga" ? "selected" : "" %>>
+                Jyotirlinga
+                </option>
+
+                <option value="Shakti Peeth"
+                <%= temple.category === "Shakti Peeth" ? "selected" : "" %>>
+                Shakti Peeth
+                </option>
+
+                <option value="Krishna Temple"
+                <%= temple.category === "Krishna Temple" ? "selected" : "" %>>
+                Krishna Temple
+                </option>
+
+                <option value="Shiva Temple"
+                <%= temple.category === "Shiva Temple" ? "selected" : "" %>>
+                Shiva Temple
+                </option>
+
+                <option value="Swaminarayan Temple"
+                <%= temple.category === "Swaminarayan Temple" ? "selected" : "" %>>
+                Swaminarayan Temple
+                </option>
+
+                <option value="Sun Temple"
+                <%= temple.category === "Sun Temple" ? "selected" : "" %>>
+                Sun Temple
+                </option>
+
+            </select>
+        </div>
+
+        <!-- Travel Information -->
+        <div class="mb-3">
+            <label class="form-label">
+                Nearest Railway Station
+            </label>
+
+            <input
+            type="text"
+            name="temple[nearestRailway]"
+            value="<%= temple.nearestRailway || '' %>"
+            class="form-control">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">
+                Nearest Bus Stand
+            </label>
+
+            <input
+            type="text"
+            name="temple[nearestBusStand]"
+            value="<%= temple.nearestBusStand || '' %>"
+            class="form-control">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">
+                Nearest Airport
+            </label>
+
+            <input
+            type="text"
+            name="temple[nearestAirport]"
+            value="<%= temple.nearestAirport || '' %>"
+            class="form-control">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">
+                How To Reach
+            </label>
+
+            <textarea
+            name="temple[howToReach]"
+            class="form-control"
+            rows="3"><%= temple.howToReach || '' %></textarea>
+        </div>
+
+        <!-- Map Link -->
+        <div class="mb-3">
+            <label class="form-label">
+                Google Map Link
+            </label>
+
+            <input
+            type="text"
+            name="temple[mapLink]"
+            value="<%= temple.mapLink || '' %>"
+            class="form-control">
+        </div>
+
+        <!-- Coordinates -->
+        <div class="row">
+
+            <div class="col-md-6 mb-3">
+                <label class="form-label">
+                    Latitude
+                </label>
+
+                <input
+                type="number"
+                step="any"
+                name="temple[latitude]"
+                value="<%= temple.latitude || '' %>"
+                class="form-control">
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label class="form-label">
+                    Longitude
+                </label>
+
+                <input
+                type="number"
+                step="any"
+                name="temple[longitude]"
+                value="<%= temple.longitude || '' %>"
+                class="form-control">
+            </div>
+
+        </div>
+
+        <!-- Buttons -->
+        <div class="d-flex gap-2">
+
+            <button class="btn btn-dark">
+                Update Temple
+            </button>
+
+            <a
+            href="/temples/<%= temple._id %>"
+            class="btn btn-secondary">
+                Cancel
+            </a>
+
+        </div>
+
+    </form>
+
+</div>
+```
+
+</div>
