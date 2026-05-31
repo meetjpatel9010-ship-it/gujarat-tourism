@@ -45,6 +45,10 @@ mapLink: String,
             ref: "Review",
         }
     ],
+    views: {
+    type: Number,
+    default: 0
+},
 category: {
     type: String,
     enum: [
@@ -58,7 +62,10 @@ category: {
 
         "Swaminarayan Temple",
 
-        "Sun Temple"
+        "Sun Temple",
+        
+         "Hanuman Temple",
+
 
     ],
 },

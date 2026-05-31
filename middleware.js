@@ -52,3 +52,14 @@ module.exports.isOwner = async (req, res, next) => {
         res.redirect("/temples");
     }
 };
+module.exports.isAdmin = (req, res, next) => {
+
+    if (!req.user || req.user.role !== "admin") {
+
+        req.flash("error", "Admin Access Required");
+
+        return res.redirect("/temples");
+    }
+
+    next();
+};

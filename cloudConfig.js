@@ -34,6 +34,8 @@ new CloudinaryStorage({
             "jpg",
             "jpeg",
             "avif",
+             "heic",
+             "webp"
         ],
 
     },

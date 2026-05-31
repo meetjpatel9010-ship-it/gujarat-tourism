@@ -52,104 +52,59 @@
                 <!-- District -->
 
                 <div class="col-lg-3">
+<select name="district" class="form-select">
 
-                    <select
-                    name="district"
-                    class="form-select"
-                    >
 
-                        <option value="">
-                            Select District
-                        </option>
+    <option value="">All Districts</option>
 
-                        <option
-                        value="Dwarka"
-                        <%= district === "Dwarka" ? "selected" : "" %>
-                        >
-                            Dwarka
-                        </option>
+    <% districts.forEach((d) => { %>
 
-                        <option
-                        value="Somnath"
-                        <%= district === "Somnath" ? "selected" : "" %>
-                        >
-                            Somnath
-                        </option>
+        <option
+        value="<%= d %>"
+        <%= district === d ? "selected" : "" %>>
+            <%= d %>
+        </option>
 
-                        <option
-                        value="Ahmedabad"
-                        <%= district === "Ahmedabad" ? "selected" : "" %>
-                        >
-                            Ahmedabad
-                        </option>
+    <% }) %>
 
-                        <option
-                        value="Kutch"
-                        <%= district === "Kutch" ? "selected" : "" %>
-                        >
-                            Kutch
-                        </option>
 
-                        <option
-                        value="Gandhinagar"
-                        <%= district === "Gandhinagar" ? "selected" : "" %>
-                        >
-                            Gandhinagar
-                        </option>
+    <option value="">All Districts</option>
 
-                        <option
-                        value="Mehsana"
-                        <%= district === "Mehsana" ? "selected" : "" %>
-                        >
-                            Mehsana
-                        </option>
+    <option value="Ahmedabad">Ahmedabad</option>
+    <option value="Amreli">Amreli</option>
+    <option value="Anand">Anand</option>
+    <option value="Aravalli">Aravalli</option>
+    <option value="Banaskantha">Banaskantha</option>
+    <option value="Bharuch">Bharuch</option>
+    <option value="Bhavnagar">Bhavnagar</option>
+    <option value="Botad">Botad</option>
+    <option value="Chhota Udepur">Chhota Udepur</option>
+    <option value="Dahod">Dahod</option>
+    <option value="Dang">Dang</option>
+    <option value="Devbhumi Dwarka">Devbhumi Dwarka</option>
+    <option value="Gandhinagar">Gandhinagar</option>
+    <option value="Gir Somnath">Gir Somnath</option>
+    <option value="Jamnagar">Jamnagar</option>
+    <option value="Junagadh">Junagadh</option>
+    <option value="Kheda">Kheda</option>
+    <option value="Kutch">Kutch</option>
+    <option value="Mahisagar">Mahisagar</option>
+    <option value="Mehsana">Mehsana</option>
+    <option value="Morbi">Morbi</option>
+    <option value="Narmada">Narmada</option>
+    <option value="Navsari">Navsari</option>
+    <option value="Panchmahal">Panchmahal</option>
+    <option value="Patan">Patan</option>
+    <option value="Porbandar">Porbandar</option>
+    <option value="Rajkot">Rajkot</option>
+    <option value="Sabarkantha">Sabarkantha</option>
+    <option value="Surat">Surat</option>
+    <option value="Surendranagar">Surendranagar</option>
+    <option value="Tapi">Tapi</option>
+    <option value="Vadodara">Vadodara</option>
+    <option value="Valsad">Valsad</option>
 
-                    </select>
-
-                </div>
-
-                <!-- Category -->
-
-                <div class="col-lg-3">
-
-                    <select
-                    name="category"
-                    class="form-select"
-                    >
-
-                        <option value="">
-                            Select Category
-                        </option>
-
-                        <option
-                        value="Jyotirlinga"
-                        <%= category === "Jyotirlinga" ? "selected" : "" %>
-                        >
-                            Jyotirlinga
-                        </option>
-
-                        <option
-                        value="Shakti Peeth"
-                        <%= category === "Shakti Peeth" ? "selected" : "" %>
-                        >
-                            Shakti Peeth
-                        </option>
-
-                        <option
-                        value="Krishna Temple"
-                        <%= category === "Krishna Temple" ? "selected" : "" %>
-                        >
-                            Krishna Temple
-                        </option>
-
-                        <option
-                        value="Shiva Temple"
-                        <%= category === "Shiva Temple" ? "selected" : "" %>
-                        >
-                            Shiva Temple
-                        </option>
-
-                    </select>
+</select>
 
                 </div>
 

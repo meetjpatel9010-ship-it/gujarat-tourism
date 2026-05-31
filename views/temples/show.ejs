@@ -6,28 +6,95 @@ rel="stylesheet"
 href="https://unpkg.com/leaflet/dist/leaflet.css"
 />
 
+
 <div class="row mt-4 justify-content-center">
 
     <div class="col-lg-8 col-md-10">
 
         <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+<div id="carouselExample" class="carousel slide">
 
-            <!-- Temple Images -->
-             <div class="row">
+<div class="carousel-inner">
 
-    <% temple.images.forEach((img) => { %>
+<% temple.images.forEach((img,index)=>{ %>
 
-        <div class="col-md-4 mb-3">
+<div class="carousel-item <%= index===0?'active':'' %>">
 
-            <img
-            src="<%= img.url %>"
-            class="img-fluid rounded shadow temple-gallery">
-
-        </div>
-
-    <% }) %>
+<img
+src="<%= img.url %>"
+class="d-block w-100"
+style="height:450px;object-fit:cover">
 
 </div>
+
+<% }) %>
+
+</div>
+
+<button
+class="carousel-control-prev"
+type="button"
+data-bs-target="#carouselExample"
+data-bs-slide="prev">
+
+<span class="carousel-control-prev-icon"></span>
+
+</button>
+
+<button
+class="carousel-control-next"
+type="button"
+data-bs-target="#carouselExample"
+data-bs-slide="next">
+
+<span class="carousel-control-next-icon"></span>
+
+</button>
+
+</div>
+            <!-- Temple Images -->
+    <div class="row">
+
+<% temple.images.forEach((img) => { %>
+
+    <div class="col-md-4 mb-3 position-relative">
+
+        <img
+        src="<%= img.url %>"
+        class="img-fluid rounded shadow temple-gallery">
+
+        <!-- DELETE BUTTON -->
+        <form
+        action="/temples/<%= temple._id %>/images/<%= img._id %>?_method=DELETE"
+        method="POST"
+        style="position:absolute; top:10px; right:10px;"
+        >
+
+            <button class="btn btn-danger btn-sm">
+                ❌
+            </button>
+
+        </form>
+
+    </div>
+
+<% }) %>
+
+</div>
+  <h3>Nearby Temples</h3>
+
+<ul>
+<% nearbyTemples.forEach(t=>{ %>
+<li>
+<a href="/temples/<%= t._id %>">
+<%= t.name %>
+</a>
+</li>
+<% }) %>
+</ul>  
+<p class="text-primary">
+👁️ <%= temple.views %> Visitors Viewed This Temple
+</p>
   <div class="card-body p-4">
 
                 <!-- Temple Name -->
@@ -294,24 +361,26 @@ href="https://unpkg.com/leaflet/dist/leaflet.css"
                 <hr>
 
                 <!-- Favorite Button -->
+<% 
+let isFav = false;
+if(currUser && currUser.favorites){
+    isFav = currUser.favorites.includes(temple._id.toString());
+}
+%>
 
-                <% if(currUser){ %>
+<% if(currUser){ %>
 
-                <form
-                action="/temples/<%= temple._id %>/favorite"
-                method="POST"
-                class="mb-4"
-                >
+<form action="/temples/<%= temple._id %>/favorite" method="POST" class="mb-4">
 
-                    <button class="btn btn-danger">
+    <button class="btn <%= isFav ? 'btn-danger' : 'btn-outline-danger' %>">
 
-                        ❤️ Add To Favorites
+        <%= isFav ? " Remove Favorite" : "❤️ Add To Favorites" %>
 
-                    </button>
+    </button>
 
-                </form>
+</form>
 
-                <% } %>
+<% } %>
 
                 <!-- Owner Buttons -->
 
@@ -366,8 +435,31 @@ href="https://unpkg.com/leaflet/dist/leaflet.css"
                 width:100%;
                 border-radius:15px;
                 "
-                ></div>
+                >
+            </div>       
+          
+              <br><br>
+                <b>Share With Temple Detail</b> 
+                <br>
+<a
+href="https://wa.me/?text=<%= temple.name %>"
+target="_blank"
+class="btn btn-success">
+WhatsApp
+</a>
 
+<a
+href="https://www.facebook.com/sharer/sharer.php?u=<%= temple.mapLink %>"
+target="_blank"
+class="btn btn-primary">
+Facebook
+</a>
+
+<button
+onclick="navigator.clipboard.writeText(window.location.href)"
+class="btn btn-dark">
+Copy Link
+</button>
                 <!-- Back Button -->
 
                 <div class="mt-4">

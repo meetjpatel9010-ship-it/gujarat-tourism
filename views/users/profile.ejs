@@ -1,0 +1,131 @@
+<% layout("/layouts/boilerplate") %>
+
+<div class="container py-5">
+
+    <div class="card shadow border-0 p-4">
+
+        <h2 class="mb-4 text-center">
+            👤 User Profile
+        </h2>
+
+        <hr>
+
+        <h5>
+            Username:
+            <%= user.username %>
+        </h5>
+
+        <h5>
+            Email:
+            <%= user.email %>
+        </h5>
+
+        <hr>
+
+        <div class="row text-center">
+
+            <div class="col-md-4">
+                <div class="card p-3 shadow-sm">
+                    <h3>
+                        <%= user.favorites.length %>
+                    </h3>
+                    <p>
+                        ❤️ Favorites
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card p-3 shadow-sm">
+                    <h3>
+                        <%= templesAdded.length %>
+                    </h3>
+                    <p>
+                        🛕 Temples Added
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card p-3 shadow-sm">
+                    <h3>
+                        <%= reviewsPosted.length %>
+                    </h3>
+                    <p>
+                        ⭐ Reviews Posted
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+        <hr class="my-4">
+
+        <h4>
+            ❤️ Favorite Temples
+        </h4>
+
+        <% if(user.favorites.length === 0){ %>
+
+            <p>No Favorite Temples</p>
+
+        <% } %>
+
+        <div class="row">
+
+            <% user.favorites.forEach((temple)=>{ %>
+
+                <div class="col-md-4 mb-3">
+
+                    <div class="card h-100">
+
+                        <img
+                        src="<%= temple.images?.[0]?.url || 'https://via.placeholder.com/300' %>"
+                        class="card-img-top"
+                        style="height:200px; object-fit:cover;"
+                        >
+
+                        <div class="card-body">
+
+                            <h5>
+                                <%= temple.name %>
+                            </h5>
+
+                            <a
+                            href="/temples/<%= temple._id %>"
+                            class="btn btn-dark btn-sm"
+                            >
+                                View
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            <% }) %>
+
+        </div>
+
+        <hr class="my-4">
+
+        <h4>
+            🛕 Temples Added By You
+        </h4>
+
+        <% templesAdded.forEach((temple)=>{ %>
+
+            <p>
+
+                <a href="/temples/<%= temple._id %>">
+                    <%= temple.name %>
+                </a>
+
+            </p>
+
+        <% }) %>
+
+    </div>
+
+</div>

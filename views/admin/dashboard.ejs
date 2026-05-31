@@ -1,0 +1,113 @@
+<% layout("/layouts/boilerplate") %>
+
+<h1 class="mb-4">
+    Admin Dashboard
+</h1>
+
+<div class="row">
+
+    <div class="col-md-4">
+
+        <div class="card p-3">
+
+            <h3>
+                Users
+            </h3>
+
+            <h1>
+                <%= users.length %>
+            </h1>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-4">
+
+        <div class="card p-3">
+
+            <h3>
+                Temples
+            </h3>
+
+            <h1>
+                <%= temples.length %>
+            </h1>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-4">
+
+        <div class="card p-3">
+
+            <h3>
+                Reviews
+            </h3>
+
+            <h1>
+                <%= reviews.length %>
+            </h1>
+
+        </div>
+
+    </div>
+
+</div>
+
+<h2 class="mt-5">
+    All Users
+</h2>
+
+<table class="table">
+
+<tr>
+    <th>Username</th>
+    <th>Email</th>
+    <th>Role</th>
+</tr>
+
+<% users.forEach(user => { %>
+
+<tr>
+
+    <td><%= user.username %></td>
+
+    <td><%= user.email %></td>
+
+    <td><%= user.role %></td>
+
+</tr>
+
+<% }) %>
+
+</table>
+
+
+<h2>
+    All Temples
+</h2>
+
+<% temples.forEach(temple => { %>
+
+<p>
+
+    <%= temple.name %>
+
+    <form
+    action="/admin/temples/<%= temple._id %>?_method=DELETE"
+    method="POST"
+    style="display:inline">
+
+        <button class="btn btn-danger btn-sm">
+
+            Delete
+
+        </button>
+
+    </form>
+
+</p>
+
+<% }) %>

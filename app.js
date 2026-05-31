@@ -22,7 +22,8 @@ const User = require("./models/user");
 
 const {
     isLoggedIn,
-    isOwner
+    isOwner,
+    isAdmin,
 } = require("./middleware");
 
 const {
@@ -194,17 +195,27 @@ async(req,res)=>{
 
 /* Show Route */
 app.get("/temples/:id", async (req, res) => {
+    
     try {
         let { id } = req.params;
+        
         const temple = await Temple.findById(id)
+        
             .populate("owner")
             .populate({
                 path: "reviews",
                 populate: {
                     path: "owner",
                 },
+                
             })
             .populate("owner");
+            temple.views += 1;
+await temple.save();
+const nearbyTemples = await Temple.find({
+   district: temple.district,
+   _id: { $ne: temple._id }
+}).limit(5);
 
         if (!temple) {
             req.flash("error", "Temple Not Found!");
@@ -222,6 +233,7 @@ app.get("/temples/:id", async (req, res) => {
 
         res.render("temples/show.ejs", {
             temple,
+            nearbyTemples,
             avgRating,
         });
     } catch (err) {
@@ -230,7 +242,7 @@ app.get("/temples/:id", async (req, res) => {
         res.redirect("/temples");
        
     }
-     
+ 
 });
 
 /* Edit Route */
@@ -379,7 +391,36 @@ app.delete("/temples/:id/reviews/:reviewId", isLoggedIn, async (req, res) => {
         res.redirect("/temples");
     }
 });
+app.delete("/temples/:id/images/:imageId", isLoggedIn, async (req, res) => {
 
+    try {
+        let { id, imageId } = req.params;
+
+        let temple = await Temple.findById(id);
+
+        // find image to delete
+        let image = temple.images.id(imageId);
+
+        // remove from Cloudinary (optional but important)
+        const { cloudinary } = require("./cloudConfig");
+
+        await cloudinary.uploader.destroy(image.filename);
+
+        // remove from MongoDB array
+        temple.images.pull(imageId);
+
+        await temple.save();
+
+        req.flash("success", "Image Deleted!");
+        res.redirect(`/temples/${id}`);
+
+    } catch (err) {
+        console.log(err);
+        req.flash("error", "Image Delete Failed");
+        res.redirect(`/temples/${id}`);
+    }
+
+});
 /* Add Favorite */
 app.post("/temples/:id/favorite", isLoggedIn, async (req, res) => {
     try {
@@ -401,19 +442,32 @@ app.post("/temples/:id/favorite", isLoggedIn, async (req, res) => {
 });
 
 /* Favorite Page */
-app.get("/favorites", isLoggedIn, async (req, res) => {
+app.post("/temples/:id/favorite", isLoggedIn, async (req, res) => {
     try {
-        const user = await User.findById(req.user._id).populate("favorites");
-        res.render("users/favorites.ejs", {
-            favorites: user.favorites,
-        });
+        let templeId = req.params.id;
+        let user = await User.findById(req.user._id);
+
+        let index = user.favorites.indexOf(templeId);
+
+        if (index === -1) {
+            // ➕ Add to favorites
+            user.favorites.push(templeId);
+            req.flash("success", "Added to Favorites ❤️");
+        } else {
+            // ❌ Remove from favorites
+            user.favorites.splice(index, 1);
+            req.flash("success", "Removed from Favorites 💔");
+        }
+
+        await user.save();
+        res.redirect(`/temples/${templeId}`);
+
     } catch (err) {
         console.log(err);
-        req.flash("error", "Cannot Load Favorites");
+        req.flash("error", "Something went wrong");
         res.redirect("/temples");
     }
 });
-
 /* Register Form */
 app.get("/register", (req, res) => {
     res.render("users/register.ejs");
@@ -469,6 +523,82 @@ app.get("/logout", (req, res, next) => {
         res.redirect("/login");
     });
 });
+app.get("/profile", isLoggedIn, async (req, res) => {
+
+    const user = await User.findById(req.user._id)
+        .populate("favorites");
+
+    const templesAdded = await Temple.find({
+        owner: req.user._id
+    });
+
+    const reviewsPosted = await Review.find({
+        owner: req.user._id
+    }).populate("owner");
+
+    res.render("users/profile.ejs", {
+        user,
+        templesAdded,
+        reviewsPosted,
+    });
+
+});
+app.get(
+    "/admin",
+    isLoggedIn,
+    isAdmin,
+    async (req, res) => {
+
+        const users = await User.find({});
+        const temples = await Temple.find({});
+        const reviews = await Review.find({});
+
+        res.render(
+            "admin/dashboard.ejs",
+            {
+                users,
+                temples,
+                reviews,
+            }
+        );
+    }
+);
+app.delete(
+    "/admin/temples/:id",
+    isLoggedIn,
+    isAdmin,
+    async (req, res) => {
+
+        await Temple.findByIdAndDelete(
+            req.params.id
+        );
+
+        req.flash(
+            "success",
+            "Temple Deleted"
+        );
+
+        res.redirect("/admin");
+    }
+);
+app.delete(
+    "/admin/reviews/:id",
+    isLoggedIn,
+    isAdmin,
+    async (req, res) => {
+
+        await Review.findByIdAndDelete(
+            req.params.id
+        );
+
+        req.flash(
+            "success",
+            "Review Deleted"
+        );
+
+        res.redirect("/admin");
+    }
+);
 app.use((err, req, res, next) => {
     console.log(err);
 
