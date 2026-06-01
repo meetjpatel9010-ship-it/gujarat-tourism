@@ -168,10 +168,19 @@ app.get("/temples/new", isLoggedIn, (req, res) => {
 app.post(
 "/temples",
 isLoggedIn,
-upload.array("images", 5),
+(req, res, next) => {
+    upload.array("images", 5)(req, res, function(err) {
+        if (err) {
+            req.flash("error", err.message);
+            return res.redirect("/temples/new");
+        }
+        next();
+    });
+},
+
 async(req,res)=>{
    try{
-console.log("FILES:", req.files);
+
       const newTemple = new Temple(req.body.temple);
 
       newTemple.owner = req.user._id;
@@ -269,7 +278,16 @@ app.put(
     isLoggedIn,
     isOwner,
 
-    upload.array("images", 5),
+   (req, res, next) => {
+    upload.array("images", 5)(req, res, function(err) {
+        if (err) {
+            req.flash("error", err.message);
+            return res.redirect("/temples/new");
+        }
+        next();
+    });
+},
+
 
     async (req, res) => {
 
@@ -432,7 +450,7 @@ app.post("/temples/:id/favorite", isLoggedIn, async (req, res) => {
         let user = await User.findById(req.user._id);
 
         let index = user.favorites.indexOf(templeId);
-
+ id => id.toString() === templeId
         if (index === -1) {
             // ➕ Add to favorites
             user.favorites.push(templeId);
