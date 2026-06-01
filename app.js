@@ -410,33 +410,49 @@ app.delete("/temples/:id/reviews/:reviewId", isLoggedIn, async (req, res) => {
         res.redirect("/temples");
     }
 });
-app.delete("/temples/:id/images/:imageId", isLoggedIn, async (req, res) => {
+app.delete(
+"/temples/:id/images/:imageId",
+isLoggedIn,
+isOwner,
+async (req,res) => {
 
     try {
+
         let { id, imageId } = req.params;
 
         let temple = await Temple.findById(id);
 
-        // find image to delete
         let image = temple.images.id(imageId);
 
-        // remove from Cloudinary (optional but important)
-        const { cloudinary } = require("./cloudConfig");
+        const { cloudinary } =
+        require("./cloudConfig");
 
-        await cloudinary.uploader.destroy(image.filename);
+        await cloudinary.uploader.destroy(
+            image.filename
+        );
 
-        // remove from MongoDB array
         temple.images.pull(imageId);
 
         await temple.save();
 
-        req.flash("success", "Image Deleted!");
+        req.flash(
+            "success",
+            "Image Deleted"
+        );
+
         res.redirect(`/temples/${id}`);
 
-    } catch (err) {
+    } catch(err){
+
         console.log(err);
-        req.flash("error", "Image Delete Failed");
-        res.redirect(`/temples/${id}`);
+
+        req.flash(
+            "error",
+            "Image Delete Failed"
+        );
+
+        res.redirect("/temples");
+
     }
 
 });
