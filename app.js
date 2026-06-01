@@ -1,7 +1,6 @@
+require("dotenv").config();
 const express = require("express");
 const app = express();
-
-require("dotenv").config();
 
 const mongoose = require("mongoose");
 const path = require("path");
@@ -172,7 +171,7 @@ isLoggedIn,
 upload.array("images", 5),
 async(req,res)=>{
    try{
-
+console.log("FILES:", req.files);
       const newTemple = new Temple(req.body.temple);
 
       newTemple.owner = req.user._id;
