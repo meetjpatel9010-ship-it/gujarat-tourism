@@ -30,7 +30,12 @@ const {
     storage
 } = require("./cloudConfig");
 
-const upload = multer({ storage });
+const upload = multer({
+    storage,
+    limits: {
+        fileSize: 10 * 1024 * 1024,
+    },
+});
 
 /* MongoDB Connection */
 async function main() {
@@ -198,30 +203,27 @@ app.get("/temples/:id", async (req, res) => {
     
     try {
         let { id } = req.params;
-        
         const temple = await Temple.findById(id)
-        
-            .populate("owner")
-            .populate({
-                path: "reviews",
-                populate: {
-                    path: "owner",
-                },
-                
-            })
-            .populate("owner");
-            temple.views += 1;
+.populate("owner")
+.populate({
+    path: "reviews",
+    populate: {
+        path: "owner",
+    },
+});
+
+if (!temple) {
+    req.flash("error", "Temple Not Found!");
+    return res.redirect("/temples");
+}
+
+temple.views = (temple.views || 0) + 1;
 await temple.save();
+    
 const nearbyTemples = await Temple.find({
    district: temple.district,
    _id: { $ne: temple._id }
 }).limit(5);
-
-        if (!temple) {
-            req.flash("error", "Temple Not Found!");
-            return res.redirect("/temples");
-        }
-
         let avgRating = 0;
         if (temple.reviews.length > 0) {
             let total = 0;
@@ -422,26 +424,9 @@ app.delete("/temples/:id/images/:imageId", isLoggedIn, async (req, res) => {
 
 });
 /* Add Favorite */
-app.post("/temples/:id/favorite", isLoggedIn, async (req, res) => {
-    try {
-        let templeId = req.params.id;
-        let user = await User.findById(req.user._id);
 
-        if (!user.favorites.includes(templeId)) {
-            user.favorites.push(templeId);
-            await user.save();
-        }
 
-        req.flash("success", "Added To Favorites");
-        res.redirect(`/temples/${templeId}`);
-    } catch (err) {
-        console.log(err);
-        req.flash("error", "Favorite Failed");
-        res.redirect("/temples");
-    }
-});
 
-/* Favorite Page */
 app.post("/temples/:id/favorite", isLoggedIn, async (req, res) => {
     try {
         let templeId = req.params.id;
@@ -467,6 +452,16 @@ app.post("/temples/:id/favorite", isLoggedIn, async (req, res) => {
         req.flash("error", "Something went wrong");
         res.redirect("/temples");
     }
+});
+/* Favorite Page */
+
+app.get("/favorites", isLoggedIn, async (req, res) => {
+   const user = await User.findById(req.user._id)
+      .populate("favorites");
+
+   res.render("users/favorites.ejs", {
+      favorites: user.favorites,
+   });
 });
 /* Register Form */
 app.get("/register", (req, res) => {
@@ -599,6 +594,10 @@ app.delete(
         res.redirect("/admin");
     }
 );
+app.all("/{*any}", (req, res) => {
+    req.flash("error", "Page Not Found");
+    res.redirect("/temples");
+});
 app.use((err, req, res, next) => {
     console.log(err);
 
