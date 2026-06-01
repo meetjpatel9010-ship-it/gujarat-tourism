@@ -282,7 +282,7 @@ app.put(
     upload.array("images", 5)(req, res, function(err) {
         if (err) {
             req.flash("error", err.message);
-            return res.redirect("/temples/new");
+            return res.redirect("/temples");
         }
         next();
     });
